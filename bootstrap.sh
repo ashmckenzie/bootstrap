@@ -235,13 +235,18 @@ done
 
 # homebrew stuff
 #
-for i in coreutils gnu-sed hub pstree htop redis
+brew tap adamv/alt
+brew update
+
+for i in coreutils gnu-sed hub pstree htop redis imagemagick
 do
   installed=`brew info ${i} 2>&1 | grep -c 'Not installed'`
   if [ $installed != 0 ]; then
     brew install ${i}
   fi
 done
+
+brew install --HEAD htop
 
 # sudo fix
 #
