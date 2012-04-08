@@ -14,7 +14,8 @@
   { 'Pixelmator.app' => 'http://pixelmator.s3.amazonaws.com/Pixelmator167.zip' },
   { 'TotalFinder.app' => 'http://downloads.binaryage.com/TotalFinder-1.3.2.dmg' },
   { 'SourceTree.app' => 'http://downloads.atlassian.com/software/sourcetree/SourceTree_1.3.3.dmg' },
-  { 'iStat Menus.app' => 'http://s3.amazonaws.com/bjango/files/istatmenus3/istatmenus3.21.zip' }
+  { 'iStat Menus.app' => 'http://s3.amazonaws.com/bjango/files/istatmenus3/istatmenus3.21.zip' },
+  { 'Plex.app' => 'http://plex-downloads.s3.amazonaws.com/0.9.5.2/Plex-Media-Center-0.9.5.2.1.zip' }
 
 ].each do |app|
 

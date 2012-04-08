@@ -184,6 +184,7 @@ babushka 'personal:Evernote.app'
 babushka 'personal:Pixelmator.app'
 babushka 'personal:TotalFinder.app'
 babushka 'personal:SourceTree.app'
+babushka 'personal:Plex.app'
 
 # ruby 1.9.3 (via rbenv) / bundler
 #
@@ -234,7 +235,7 @@ done
 
 # homebrew stuff
 #
-for i in coreutils gnu-sed hub
+for i in coreutils gnu-sed hub pstree htop redis
 do
   installed=`brew info ${i} 2>&1 | grep -c 'Not installed'`
   if [ $installed != 0 ]; then
