@@ -161,30 +161,23 @@ if [ $? != 0 ]; then
   bash -c "`curl babushka.me/up`"
 fi
 
+# ashmckenzie babushka deps
+#
+if [ ! -d "${HOME}/.babushka/deps" ]; then
+  git clone git@github.com:ashmckenzie/babushka-deps.git ${HOME}/.babushka/deps
+else
+  cd ${HOME}/.babushka/deps
+  git reset --hard HEAD
+  git pull -r
+fi
+
 # homebrew
 #
 babushka homebrew
 
 # babushka app_bundle
 #
-ln -sf ${HOME}/Projects/bootstrap/app_bundles.rb ${HOME}/.babushka/deps
-
-babushka 'personal:Dropbox.app'
-babushka 'personal:Google Chrome.app'
-babushka 'personal:Skitch.app'
-babushka 'personal:Skype.app'
-babushka 'personal:Transmit.app'
-babushka 'personal:Postbox.app'
-babushka 'personal:Twitterrific.app'
-babushka 'personal:Sublime Text.app'
-babushka 'personal:iTerm.app'
-babushka 'personal:1Password.app'
-babushka 'personal:Alfred.app'
-babushka 'personal:Evernote.app'
-babushka 'personal:Pixelmator.app'
-babushka 'personal:TotalFinder.app'
-babushka 'personal:SourceTree.app'
-babushka 'personal:Plex.app'
+babushka 'personal:ash-macbook-air'
 
 # ruby 1.9.3 (via rbenv) / bundler
 #
@@ -238,7 +231,7 @@ done
 brew tap adamv/alt
 brew update
 
-for i in coreutils gnu-sed hub pstree htop redis imagemagick
+for i in coreutils gnu-sed hub pstree htop redis imagemagick ack
 do
   installed=`brew info ${i} 2>&1 | grep -c 'Not installed'`
   if [ $installed != 0 ]; then
