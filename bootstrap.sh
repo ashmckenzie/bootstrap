@@ -163,12 +163,16 @@ fi
 
 # ashmckenzie babushka deps
 #
+# if [ ! -d "${HOME}/.babushka/deps" ]; then
+#   git clone git@github.com:ashmckenzie/babushka-deps.git ${HOME}/.babushka/deps
+# else
+#   cd ${HOME}/.babushka/deps
+#   git reset --hard HEAD
+#   git pull -r
+# fi
+
 if [ ! -d "${HOME}/.babushka/deps" ]; then
-  git clone git@github.com:ashmckenzie/babushka-deps.git ${HOME}/.babushka/deps
-else
-  cd ${HOME}/.babushka/deps
-  git reset --hard HEAD
-  git pull -r
+  exit 'ERROR: Make sure you symlink https://github.com/ashmckenzie/babushka-deps'
 fi
 
 # homebrew
