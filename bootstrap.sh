@@ -148,6 +148,9 @@ defaults write com.apple.terminal StringEncodings -array 4
 # Show the ~/Library folder
 chflags nohidden ~/Library
 
+# no system sound volume
+defaults write com.apple.systemsound com.apple.sound.beep.volume -float 0
+
 # disable Dashboard
 defaults write com.apple.dashboard mcx-disabled -boolean YES
 
@@ -161,16 +164,6 @@ if [ $? != 0 ]; then
   bash -c "`curl babushka.me/up`"
 fi
 
-# ashmckenzie babushka deps
-#
-# if [ ! -d "${HOME}/.babushka/deps" ]; then
-#   git clone git@github.com:ashmckenzie/babushka-deps.git ${HOME}/.babushka/deps
-# else
-#   cd ${HOME}/.babushka/deps
-#   git reset --hard HEAD
-#   git pull -r
-# fi
-
 if [ ! -d "${HOME}/.babushka/deps" ]; then
   exit 'ERROR: Make sure you symlink https://github.com/ashmckenzie/babushka-deps'
 fi
@@ -181,27 +174,20 @@ babushka homebrew
 
 # babushka app_bundle
 #
-babushka 'personal:ash-macbook-air'
+babushka --update 'personal:ash-macbook-air'
 
-# ruby 1.9.3 (via rbenv) / bundler
+# benhoskings - ruby 1.9.3 (via rbenv) / bundler
 #
 export PATH="${HOME}/.rbenv/bin:${PATH}"
 eval "$(rbenv init -)"
-babushka --update benhoskings:rbenv benhoskings:1.9.3-falcon.rbenv benhoskings:bundler.gem
+babushka --update benhoskings:zsh benhoskings:rbenv benhoskings:1.9.3-falcon.rbenv benhoskings:bundler.gem
 rbenv global 1.9.3-falcon
-
-# zsh
-#
-babushka benhoskings:zsh
 
 # Dropbox symlinks
 #
-DROPBOX="${HOME}/Dropbox"
-DHOME="${DROPBOX}/HOME"
-
 for i in .ackrc .git_templates .gitconfig .gitignore_global .gvimrc .gvimrc.local .irbrc .lftprc .oh-my-zsh .pryrc .railsrc .rvmrc .ssh .vim .vimrc .vimrc.local .zsh .zsh-update .zshrc bin git
 do
-  ln -nfs ${DHOME}/${i} ${HOME}/
+  ln -nfs ${HOME}/Dropbox/HOME/${i} ${HOME}/
 done
 
 chmod 600 ${HOME}/.ssh/*
@@ -218,7 +204,7 @@ ln -nfs "${DROPBOX}/Sublime Text 2/*" "${APPLICATION_SUPPORT}/Sublime Text 2/"
 
 # Application Support
 #
-for i in Cyberduck Twitterrific
+for i in Cyberduck
 do
   ln -nfs "${DROPBOX}/${i}" ${HOME}/Library/Application\ Support/
 done
@@ -232,18 +218,19 @@ done
 
 # homebrew stuff
 #
-brew tap adamv/alt
+if [ `brew tap | grep -c 'adamv/alt'` == 0 ]; then
+  brew tap adamv/alt
+fi
+
 brew update
 
-for i in coreutils gnu-sed hub pstree htop redis imagemagick ack
+for i in coreutils gnu-sed hub pstree redis imagemagick ack
 do
   installed=`brew info ${i} 2>&1 | grep -c 'Not installed'`
   if [ $installed != 0 ]; then
     brew install ${i}
   fi
 done
-
-brew install --HEAD htop
 
 # sudo fix
 #
