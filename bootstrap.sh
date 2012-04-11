@@ -239,4 +239,5 @@ sudo gsed -i 's/%admin\tALL=(ALL) ALL/%admin\tALL=(ALL) NOPASSWD:ALL/' /etc/sudo
 # Reminders
 #
 echo "** Don't forget to install Growl"
+echo "** Don't forget to install Sparrow"
 echo "** Don't forget to install the Xcode command line tools - http://kennethreitz.com/xcode-gcc-and-homebrew.html"
