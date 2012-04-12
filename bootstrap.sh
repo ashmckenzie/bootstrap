@@ -118,7 +118,7 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 # Empty Trash securely by default
-defaults write com.apple.finder EmptyTrashSecurely -bool true
+#defaults write com.apple.finder EmptyTrashSecurely -bool true
 
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
@@ -221,16 +221,6 @@ done
 if [ `brew tap | grep -c 'adamv/alt'` == 0 ]; then
   brew tap adamv/alt
 fi
-
-brew update
-
-for i in coreutils gnu-sed hub pstree redis imagemagick ack
-do
-  installed=`brew info ${i} 2>&1 | grep -c 'Not installed'`
-  if [ $installed != 0 ]; then
-    brew install ${i}
-  fi
-done
 
 # sudo fix
 #
