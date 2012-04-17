@@ -222,6 +222,10 @@ if [ `brew tap | grep -c 'adamv/alt'` == 0 ]; then
   brew tap adamv/alt
 fi
 
+if [ `brew tap | grep -c 'homebrew/dupes'` == 0 ]; then
+  brew tap homebrew/dupes
+fi
+
 # sudo fix
 #
 sudo gsed -i 's/%admin\tALL=(ALL) ALL/%admin\tALL=(ALL) NOPASSWD:ALL/' /etc/sudoers
