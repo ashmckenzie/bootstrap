@@ -3,7 +3,7 @@
 # pre flight
 #
 mkdir ${HOME}/tmp > /dev/null 2>&1
-sudo mkdir -p /usr/local/bin
+sudo mkdir -p /usr/local/bin /usr/local/share/man > /dev/null 2>&1
 sudo chown root:admin /usr/local
 sudo chmod 2775 /usr/local /usr/local/bin
 sudo chmod g+w /usr/local/share/man
@@ -158,7 +158,7 @@ for app in Safari Finder Dock SystemUIServer; do killall "$app" >/dev/null 2>&1;
 
 # babushka
 #
-babushka babushka
+babushka babushka > /dev/null 2>&1
 
 if [ $? != 0 ]; then
   bash -c "`curl babushka.me/up`"
