@@ -3,10 +3,10 @@
 # pre flight
 #
 mkdir ${HOME}/tmp > /dev/null 2>&1
-sudo mkdir -p /usr/local/bin /usr/local/share/man > /dev/null 2>&1
-sudo chown root:admin /usr/local
-sudo chmod 2775 /usr/local /usr/local/bin
-sudo chmod g+w /usr/local/share/man
+sudo mkdir /usr/local > /dev/null 2>&1
+sudo chown -R root:admin /usr/local
+find /usr/local -type d -exec sudo chmod 2775 {} \;
+find /usr/local -type f -exec sudo chmod 664 {} \;
 
 # Mac preferences
 #
@@ -158,14 +158,16 @@ for app in Safari Finder Dock SystemUIServer; do killall "$app" >/dev/null 2>&1;
 
 # babushka
 #
-babushka babushka > /dev/null 2>&1
+babushka > /dev/null 2>&1
 
 if [ $? != 0 ]; then
   bash -c "`curl babushka.me/up`"
 fi
 
 if [ ! -d "${HOME}/.babushka/deps" ]; then
-  exit 'ERROR: Make sure you symlink https://github.com/ashmckenzie/babushka-deps'
+  mkdir ${HOME}/.babushka > /dev/null 2>&1
+  cd ${HOME}/.babushka
+  git clone https://github.com/ashmckenzie/babushka-deps deps
 fi
 
 # homebrew
