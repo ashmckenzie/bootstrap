@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# sudo fix
+#
+sudo sed -i 'saved' 's/%admin.*ALL=(ALL).*ALL/%admin  ALL=(ALL) NOPASSWD:ALL/' /etc/sudoers
+
 # pre flight
 #
 mkdir ${HOME}/tmp > /dev/null 2>&1
-sudo mkdir /usr/local > /dev/null 2>&1
+sudo mkdir -p /usr/local/bin /usr/local/share/man > /dev/null 2>&1
 sudo chown -R root:admin /usr/local
+sudo chmod -R g=u /usr/local
 find /usr/local -type d -exec sudo chmod 2775 {} \;
-find /usr/local -type f -exec sudo chmod 664 {} \;
 
 # Mac preferences
 #
@@ -126,6 +130,8 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Enable tap to click (Trackpad)
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Map bottom right Trackpad corner to right-click
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
@@ -154,6 +160,9 @@ defaults write com.apple.systemsound com.apple.sound.beep.volume -float 0
 # disable Dashboard
 defaults write com.apple.dashboard mcx-disabled -boolean YES
 
+# revert back to real "natural scrolling"
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
 for app in Safari Finder Dock SystemUIServer; do killall "$app" >/dev/null 2>&1; done
 
 # babushka
@@ -168,6 +177,9 @@ if [ ! -d "${HOME}/.babushka/deps" ]; then
   mkdir ${HOME}/.babushka > /dev/null 2>&1
   cd ${HOME}/.babushka
   git clone https://github.com/ashmckenzie/babushka-deps deps
+else
+  cd ${HOME}/.babushka/deps
+  git pull -r
 fi
 
 # homebrew
@@ -180,10 +192,11 @@ babushka --update 'personal:ash-macbook-air'
 
 # benhoskings - ruby 1.9.3 (via rbenv) / bundler
 #
+touch ${HOME}/.use_rbenv
 export PATH="${HOME}/.rbenv/bin:${PATH}"
 eval "$(rbenv init -)"
 babushka --update benhoskings:zsh benhoskings:rbenv benhoskings:1.9.3-falcon.rbenv benhoskings:bundler.gem
-rbenv global 1.9.3-falcon
+rbenv global 1.9.3-p194
 
 # Dropbox symlinks
 #
@@ -228,13 +241,7 @@ if [ `brew tap | grep -c 'homebrew/dupes'` == 0 ]; then
   brew tap homebrew/dupes
 fi
 
-# sudo fix
-#
-sudo gsed -i 's/%admin\tALL=(ALL) ALL/%admin\tALL=(ALL) NOPASSWD:ALL/' /etc/sudoers
-
 # Reminders
 #
-echo "** Don't forget to install Growl"
-echo "** Don't forget to install DragonDrop"
-echo "** Don't forget to install Sparrow"
+echo "** Don't forget to install App Store apps"
 echo "** Don't forget to install the Xcode command line tools - http://kennethreitz.com/xcode-gcc-and-homebrew.html"
